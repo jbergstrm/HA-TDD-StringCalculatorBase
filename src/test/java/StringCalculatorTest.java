@@ -66,4 +66,9 @@ public class StringCalculatorTest {
                 Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("//;\n-11;2;4"));
         Assertions.assertEquals(String.format("Negatives not allowed: %d", -11), negativeNumberException.getMessage());
     }
+
+    @Test
+    public void testWithMultipleUserSpecifiedDelimiters() {
+        Assertions.assertEquals(21, calculator.add("//;#+\n1+2#3+4;5#6"));
+    }
 }

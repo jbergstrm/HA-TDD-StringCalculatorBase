@@ -12,7 +12,7 @@ public class StringCalculatorImpl implements StringCalculator {
         }
 
         if (input.startsWith(USER_SPECIFIED_DELIMITER)) {
-            DELIMITER_REGEX = "[" + input.charAt(2) + "]";
+            DELIMITER_REGEX = "[" + input.substring(2, input.indexOf('\n')) + "]";
             input = input.substring(input.indexOf('\n') + 1);
         }
 
