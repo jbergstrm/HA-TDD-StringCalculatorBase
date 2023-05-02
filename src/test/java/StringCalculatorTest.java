@@ -15,4 +15,11 @@ public class StringCalculatorTest {
     public void testEmptyStringReturnsZero() {
         Assertions.assertEquals(0, calculator.add(""));
     }
+
+    @Test
+    public void testWithSingleNumber() {
+        Assertions.assertEquals(1, calculator.add("1"));
+        Assertions.assertEquals(7, calculator.add("7"));
+        Assertions.assertEquals(11, calculator.add("11"));
+    }
 }
