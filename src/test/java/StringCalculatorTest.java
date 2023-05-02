@@ -77,4 +77,9 @@ public class StringCalculatorTest {
     public void testWithUserSpecificAndAnyLengthDelimiter() {
         Assertions.assertEquals(6, calculator.add("//[***]\n1***2***3"));
     }
+
+    @Test
+    public void testWithUserSpecificAndMultipleDelimiter() {
+        Assertions.assertEquals(6, calculator.add("//[*][%]\n1*2%3"));
+    }
 }

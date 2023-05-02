@@ -36,9 +36,16 @@ public class StringCalculatorImpl implements StringCalculator {
 
         if (delimiter.startsWith("[") && delimiter.endsWith("]")) {
             delimiter = delimiter.substring(1, delimiter.length() - 1);
+            return handleMultipleDelimiters(delimiter);
         }
 
         return Pattern.quote(delimiter);
+    }
+
+    private String handleMultipleDelimiters(final String str) {
+        String[] delimiters = str.split("]\\[");
+        delimiters = Arrays.stream(delimiters).map(Pattern::quote).toArray(String[]::new);
+        return String.join("|", delimiters);
     }
 
     private String extractDelimiter(final String str) {
