@@ -66,4 +66,10 @@ public class StringCalculatorTest {
                 Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("//;\n-11;2;4"));
         Assertions.assertEquals(String.format("Negatives not allowed: %d", -11), negativeNumberException.getMessage());
     }
+
+    @Test
+    public void testWithNumbersLargerThanThousandShouldBeIgnored() {
+        Assertions.assertEquals(2, calculator.add("2,1001"));
+        Assertions.assertEquals(1001, calculator.add("1000,1"));
+    }
 }
