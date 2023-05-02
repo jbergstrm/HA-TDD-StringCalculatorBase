@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class StringCalculatorImpl implements StringCalculator {
 
@@ -12,23 +13,39 @@ public class StringCalculatorImpl implements StringCalculator {
         }
 
         if (input.startsWith(USER_SPECIFIED_DELIMITER)) {
-            DELIMITER_REGEX = "[" + input.charAt(2) + "]";
-            input = input.substring(input.indexOf('\n') + 1);
+            DELIMITER_REGEX = getQuotedDelimiters(input);
+            input = extractNumbers(input);
         }
 
         return Arrays
                 .stream(input.split(DELIMITER_REGEX))
                 .mapToInt(Integer::parseInt)
                 .filter(this::isValidNumber)
-                .peek(n -> {
-                    if (n < 0) {
-                        throw new NegativeNumberException(String.format("Negatives not allowed: %d", n));
-                    }
-                })
                 .sum();
     }
 
-    private boolean isValidNumber(final int n) {
+    private boolean isValidNumber(final int n) throws NegativeNumberException {
+        if (n < 0) {
+            throw new NegativeNumberException(String.format("Negatives not allowed: %d", n));
+        }
         return n <= 1000;
+    }
+
+    private String getQuotedDelimiters(final String str) {
+        String delimiter = extractDelimiter(str);
+
+        if (delimiter.startsWith("[") && delimiter.endsWith("]")) {
+            delimiter = delimiter.substring(1, delimiter.length() - 1);
+        }
+
+        return Pattern.quote(delimiter);
+    }
+
+    private String extractDelimiter(final String str) {
+        return str.substring(2, str.indexOf('\n'));
+    }
+
+    private String extractNumbers(final String str) {
+        return str.substring(str.indexOf('\n') + 1);
     }
 }

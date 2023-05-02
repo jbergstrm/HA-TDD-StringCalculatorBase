@@ -72,4 +72,9 @@ public class StringCalculatorTest {
         Assertions.assertEquals(2, calculator.add("2,1001"));
         Assertions.assertEquals(1001, calculator.add("1000,1"));
     }
+
+    @Test
+    public void testWithUserSpecificAndAnyLengthDelimiter() {
+        Assertions.assertEquals(6, calculator.add("//[***]\n1***2***3"));
+    }
 }
