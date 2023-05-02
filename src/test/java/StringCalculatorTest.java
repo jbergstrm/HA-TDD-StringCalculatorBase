@@ -29,4 +29,10 @@ public class StringCalculatorTest {
         Assertions.assertEquals(13, calculator.add("4,9"));
         Assertions.assertEquals(16, calculator.add("11,5"));
     }
+
+    @Test
+    public void testWithUnspecifiedAmountOfNumbersSeparatedByComma() {
+        Assertions.assertEquals(21, calculator.add("1,2,3,4,5,6"));
+        Assertions.assertEquals(54, calculator.add("6,8,3,9,11,15,2"));
+    }
 }
