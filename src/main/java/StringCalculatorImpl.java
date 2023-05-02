@@ -19,6 +19,11 @@ public class StringCalculatorImpl implements StringCalculator {
         return Arrays
                 .stream(input.split(DELIMITER_REGEX))
                 .mapToInt(Integer::parseInt)
+                .peek(n -> {
+                    if (n < 0) {
+                        throw new NegativeNumberException(String.format("Negatives not allowed: %d", n));
+                    }
+                })
                 .sum();
     }
 }
