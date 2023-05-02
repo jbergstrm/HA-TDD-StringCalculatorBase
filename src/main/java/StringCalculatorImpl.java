@@ -2,7 +2,6 @@ public class StringCalculatorImpl implements StringCalculator {
 
     @Override
     public int add(String input) {
-        //TODO implement
-        return -1;
+        return input.isEmpty() ? 0 : -1;
     }
 }
