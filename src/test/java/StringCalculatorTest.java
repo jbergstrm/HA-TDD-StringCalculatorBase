@@ -55,4 +55,15 @@ public class StringCalculatorTest {
         Assertions.assertEquals(16, calculator.add("//#\n11#5"));
         Assertions.assertEquals(21, calculator.add("//+\n1+2+3+4+5+6"));
     }
+
+    @Test
+    public void testWithNegativeNumberThrowsNegativeNumberException() {
+        NegativeNumberException negativeNumberException =
+                Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("1,-2"));
+        Assertions.assertEquals(String.format("Negatives not allowed: %d", -2), negativeNumberException.getMessage());
+
+        negativeNumberException =
+                Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("//;\n-11;2;4"));
+        Assertions.assertEquals(String.format("Negatives not allowed: %d", -11), negativeNumberException.getMessage());
+    }
 }
