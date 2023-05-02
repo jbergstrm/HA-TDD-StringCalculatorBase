@@ -48,4 +48,11 @@ public class StringCalculatorTest {
         Assertions.assertEquals(21, calculator.add("1\n2\n3,4\n5,6"));
         Assertions.assertEquals(54, calculator.add("6,8\n3,9,11\n15\n2"));
     }
+
+    @Test
+    public void testWithUserSpecifiedDelimiter() {
+        Assertions.assertEquals(3, calculator.add("//;\n1;2"));
+        Assertions.assertEquals(16, calculator.add("//#\n11#5"));
+        Assertions.assertEquals(21, calculator.add("//+\n1+2+3+4+5+6"));
+    }
 }
