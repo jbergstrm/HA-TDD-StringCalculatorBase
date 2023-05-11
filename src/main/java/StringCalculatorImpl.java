@@ -5,6 +5,12 @@ public class StringCalculatorImpl implements StringCalculator {
     private final static String USER_SPECIFIED_DELIMITER_IDENTIFIER = "//";
     private String DELIMITER_REGEX = "[,\n]";
 
+    private final Logger logger;
+
+    public StringCalculatorImpl(final Logger logger) {
+        this.logger = logger;
+    }
+
     @Override
     public int add(String input) {
         if (input.isEmpty()) {
@@ -27,6 +33,11 @@ public class StringCalculatorImpl implements StringCalculator {
         if (n < 0) {
             throw new NegativeNumberException(String.format("Negatives not allowed: %d", n));
         }
+
+        if (n > 1000) {
+            logger.log(String.format("The given number %d is larger than 1000", n));
+        }
+
         return true;
     }
 }

@@ -1,14 +1,22 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class StringCalculatorTest {
 
-    private StringCalculator calculator;
+    @Mock
+    private Logger logger;
+
+    @InjectMocks
+    private StringCalculatorImpl calculator;
 
     @BeforeEach
     public void beforeEach() {
-        calculator = new StringCalculatorImpl();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -69,5 +77,21 @@ public class StringCalculatorTest {
         final NegativeNumberException negativeNumberException =
                 Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("//;\n-11;2;4"));
         Assertions.assertEquals(String.format("Negatives not allowed: %d", -11), negativeNumberException.getMessage());
+    }
+
+    @Test
+    public void testWithNumberLargerThanThousand() {
+        final int result = calculator.add("1001,1");
+        Mockito.verify(logger, Mockito.times(1))
+                .log(String.format("The given number %d is larger than 1000", 1001));
+        Assertions.assertEquals(1002, result);
+    }
+
+    @Test
+    public void testWithMultipleNumberLargerThanThousand() {
+        final int result = calculator.add("1001,1002,1000");
+        Mockito.verify(logger, Mockito.times(2))
+                .log(Mockito.contains("is larger than 1000"));
+        Assertions.assertEquals(3003, result);
     }
 }
