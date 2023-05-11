@@ -58,17 +58,21 @@ public class StringCalculatorTest {
 
     @Test
     public void testWithNegativeNumberThrowsNegativeNumberException() {
-        NegativeNumberException negativeNumberException =
+        final NegativeNumberException negativeNumberException =
                 Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("1,-2"));
         Assertions.assertEquals(String.format("Negatives not allowed: %d", -2), negativeNumberException.getMessage());
 
-        negativeNumberException =
+    }
+
+    @Test
+    public void testWithNegativeNumberThrowsNegativeNumberExceptionWithUserSpecifiedDelimiter() {
+        final NegativeNumberException negativeNumberException =
                 Assertions.assertThrowsExactly(NegativeNumberException.class, () -> calculator.add("//;\n-11;2;4"));
         Assertions.assertEquals(String.format("Negatives not allowed: %d", -11), negativeNumberException.getMessage());
     }
 
     @Test
-    public void testWithNumbersLargerThanThousandShouldBeIgnored() {
+    public void testWithInputNumbersLargerThanThousandShouldBeIgnored() {
         Assertions.assertEquals(2, calculator.add("2,1001"));
         Assertions.assertEquals(1001, calculator.add("1000,1"));
     }
