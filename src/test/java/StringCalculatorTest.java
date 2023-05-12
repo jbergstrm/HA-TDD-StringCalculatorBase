@@ -1,6 +1,7 @@
 import calculator.impl.StringCalculatorImpl;
 import exceptions.NegativeNumberException;
 import logger.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,16 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import utils.InfoUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+
 public class StringCalculatorTest {
+
+    private static final String[] FAKE_ARGS = new String[0];
 
     @Mock
     private Logger logger;
@@ -21,6 +31,15 @@ public class StringCalculatorTest {
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void afterEach() {
+        // Set the default system in.
+        System.setIn(System.in);
+
+        // Set the default system out.
+        System.setOut(System.out);
     }
 
     @Test
@@ -101,8 +120,21 @@ public class StringCalculatorTest {
 
     @Test
     public void testWelcomeMessageAndHelpText() {
-        new Calculator(logger).run();
+        logger.print(InfoUtils.getWelcomeMessage());
         Mockito.verify(logger, Mockito.times(1))
                         .print(String.format("%s\n%s\n", InfoUtils.WELCOME_TEXT, InfoUtils.HELP_TEXT));
+    }
+
+    @Test
+    public void testWithUserConsoleInputUnspecifiedAmountOfNumbersSeparatedByComma() {
+        final InputStream inputStream = new ByteArrayInputStream("scalc '1,2,3'".getBytes(StandardCharsets.UTF_8));
+        final OutputStream outputStream = new ByteArrayOutputStream();
+
+        System.setIn(inputStream);
+        System.setOut(new PrintStream(outputStream));
+
+        Calculator.main(FAKE_ARGS);
+        Assertions.assertEquals(String.format("%s\n%s\n", InfoUtils.WELCOME_TEXT, InfoUtils.HELP_TEXT) +
+                        String.format(InfoUtils.SCALC_RESULT_TEXT + System.lineSeparator(), 6), outputStream.toString());
     }
 }
