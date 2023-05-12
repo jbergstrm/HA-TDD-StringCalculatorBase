@@ -1,3 +1,6 @@
+import calculator.impl.StringCalculatorImpl;
+import exceptions.NegativeNumberException;
+import logger.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -5,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import utils.InfoUtils;
 
 public class StringCalculatorTest {
 
@@ -93,5 +97,12 @@ public class StringCalculatorTest {
         Mockito.verify(logger, Mockito.times(2))
                 .log(Mockito.contains("is larger than 1000"));
         Assertions.assertEquals(3003, result);
+    }
+
+    @Test
+    public void testWelcomeMessageAndHelpText() {
+        new Calculator(logger).run();
+        Mockito.verify(logger, Mockito.times(1))
+                        .print(String.format("%s\n%s\n", InfoUtils.WELCOME_TEXT, InfoUtils.HELP_TEXT));
     }
 }

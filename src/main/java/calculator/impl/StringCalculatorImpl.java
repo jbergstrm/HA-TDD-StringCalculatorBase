@@ -1,3 +1,9 @@
+package calculator.impl;
+
+import calculator.StringCalculator;
+import exceptions.NegativeNumberException;
+import logger.Logger;
+
 import java.util.Arrays;
 
 public class StringCalculatorImpl implements StringCalculator {

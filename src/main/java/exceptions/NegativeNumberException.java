@@ -1,3 +1,5 @@
+package exceptions;
+
 /**
  *
  * @author Joakim Bergström
