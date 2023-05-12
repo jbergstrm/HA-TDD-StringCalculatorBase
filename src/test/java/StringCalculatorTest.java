@@ -137,4 +137,19 @@ public class StringCalculatorTest {
         Assertions.assertEquals(String.format("%s\n%s\n", InfoUtils.WELCOME_TEXT, InfoUtils.HELP_TEXT) +
                         String.format(InfoUtils.SCALC_RESULT_TEXT + System.lineSeparator(), 6), outputStream.toString());
     }
+
+    @Test
+    public void testWithUserSpecificAndAnyLengthDelimiter() {
+        Assertions.assertEquals(6, calculator.add("//[***]\n1***2***3"));
+    }
+
+    @Test
+    public void testWithUserSpecificAndMultipleDelimiter() {
+        Assertions.assertEquals(6, calculator.add("//[*][%]\n1*2%3"));
+    }
+
+    @Test
+    public void testWithUserSpecificAndAnyLengthAndMultipleDelimiter() {
+        Assertions.assertEquals(6, calculator.add("//[***][%%]\n1***2%%3"));
+    }
 }
